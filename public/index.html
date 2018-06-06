@@ -1,0 +1,70 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+
+    <title>Event Scheduler</title>
+    <link rel="icon" href="img/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/fullcalendar.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- JS -->
+    <script type="text/javascript" src="libs/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="libs/angular/angular.js"></script>
+    <script type="text/javascript" src="libs/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="libs/fullcalendar/dist/fullcalendar.js"></script>
+    <script type="text/javascript" src="libs/fullcalendar/dist/gcal.js"></script>
+
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
+    
+    <script type="text/javascript" src="libs/angular-ui-calendar/src/calendar.js"></script>
+    <script type="text/javascript" src="libs/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="libs/angular-bootstrap/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="libs/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="js/app.module.js"></script>
+    <script src="js/app.controller.js"></script>
+    <script src="js/app-routes.js"></script>
+
+    <script src="modules/event/event.module.js"></script>
+    <script src="modules/event/event.service.js"></script>
+    <script src="modules/event/event.controller.js"></script>
+
+    <script src="modules/event/edit/event-edit.controller.js"></script>
+    <script src="modules/event/edit/event-edit.js"></script>
+
+    <script src="modules/event/search/event-search.controller.js"></script>
+    <script src="modules/event/search/event-search.js"></script>
+
+    <script src="modules/event/calendar/event-calendar.controller.js"></script>
+    <script src="modules/event/calendar/event-calendar.js"></script>
+</head>
+
+<body ng-app="event-scheduler" ng-controller="MainController">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" href="/"><strong>Event Scheduler</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events/editEvents">Add or Edit Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events/searchForEvents">Search for Events</a>
+                    </li>
+                </ul>
+            </div>
+        </nav><br>
+        
+        <div ng-view></div>
+    </div>
+</body>
+</html>

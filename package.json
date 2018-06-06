@@ -1,0 +1,42 @@
+{
+  "name": "angular-event-scheduler",
+  "version": "1.0.0",
+  "description": "OpenShift3 app uses full-stack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AhmedAlatawi/angular-event-scheduler.git"
+  },
+  "author": "Ahmed Alatawi <aalat001@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AhmedAlatawi/angular-event-scheduler/issues"
+  },
+  "homepage": "https://github.com/AhmedAlatawi/angular-event-scheduler",
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js",
+    "local": "cross-env NODE_ENV=local npm start",
+    "clean": "rm -rf node_modules/ public/libs/"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "method-override": "^2.3.10",
+    "mocha": "^2.4.5",
+    "mongodb": "^2.1.16",
+    "mongoose": "^5.1.4",
+    "morgan": "^1.7.0",
+    "object-assign": "4.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.6"
+  }
+}

@@ -1,0 +1,9 @@
+<div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+    <h4>{{alertMessage}}</h4>
+</div>
+<div class="btn-group" role="group">
+    <button class="btn btn-secondary" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+    <button class="btn btn-secondary" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+    <button class="btn btn-secondary" ng-click="changeView('month', 'myCalendar1')">Month</button>
+</div>
+<div ui-calendar="ctrl.uiConfig.calendar" class="span8 calendar" ng-model="ctrl.eventSources"></div>
