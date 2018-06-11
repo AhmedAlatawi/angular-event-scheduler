@@ -1,0 +1,32 @@
+<div class="timepicker" id="timepicker_id">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <datepicker date-format="MM/dd/yyyy" date-min-limit="{{ ctrl.minDate }}" date-max-limit="{{ ctrl.maxDate }}">
+                    <input id="selectedDate_id" ng-disabled="ctrl.disableDate" class="form-control" ng-model="ctrl.selectedDate" type="text"
+                    />
+                </datepicker>
+            </div>
+            <div class="col-md-6">
+                <label ng-click="ctrl.toggle()">
+                    <input id="selectedTime_id" class="form-control" type="text" ng-model="ctrl.timeString" ng-bind="ctrl.selectedTime">
+                </label>
+                <div class="shadow p-3 mb-5 bg-white rounded" ng-show="ctrl.clicked">
+                    <table id="table_id">
+                        <tr>
+                            <td class="periods">
+                                <div ng-click="ctrl.selectPeriod(period)" ng-repeat="period in ctrl.periods" ng-bind="period"></div>
+                            </td>
+                            <td class="hours">
+                                <div ng-click="ctrl.selectHour(hour)" ng-repeat="hour in ctrl.hours" ng-bind="hour.label"></div>
+                            </td>
+                            <td class="minutes">
+                                <div ng-click="ctrl.selectMinute(minute)" ng-repeat="minute in ctrl.minutes" ng-bind="minute"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

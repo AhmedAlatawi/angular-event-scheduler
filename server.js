@@ -34,7 +34,8 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 app.use(express.static(__dirname + '/public'));
 
-require('./app/routes')(app); // configure our routes
+require('./app/routes/event')(app);
+require('./app/common-routes')(app);
 
 app.listen(port);
                   

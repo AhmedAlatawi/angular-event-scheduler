@@ -1,9 +1,58 @@
-<div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
-    <h4>{{alertMessage}}</h4>
+<div ui-calendar="ctrl.uiConfig.calendar" calendar="calendar" class="span8 calendar" ng-model="ctrl.eventSources">
 </div>
-<div class="btn-group" role="group">
-    <button class="btn btn-secondary" ng-click="changeView('agendaDay')">Day</button>
-    <button class="btn btn-secondary" ng-click="changeView('agendaWeek')">Week</button>
-    <button class="btn btn-secondary" ng-click="changeView('month')">Month</button>
+
+<button ng-show="false" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal_id" id="modal_open_id"></button>
+
+<div class="modal fade" id="eventModal_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form name="eventForm" class="form-horizontal" validate-form-submit ng-submit="ctrl.save(eventForm)" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ ctrl.event._id ? 'Edit' : 'Add' }} Event</h5>
+                    <button id="modal_close_id" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="control-label" for="title">Title</label>
+                            <input name="title" type="text" ng-model="ctrl.event.title" id="title" class="form-control" placeholder="Title" ng-minlength="2"
+                                maxlength="50" required>
+                            <div ng-messages="eventForm.title.$error" ng-class="{'text-danger': eventForm.title.$invalid && (eventForm.title.$dirty || vm.eventForm.submitted)}"
+                                role="alert">
+                                <span class="help-block" ng-message="required">Title is required.</span>
+                                <span class="help-block" ng-message="minlength">Title must be at least 2 characters.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="startTime">Starts</label>
+                            <time-picker name="startTime" ng-model="ctrl.startTime" clicked="ctrl.startTimeClicked" selected-date="ctrl.selectedStartDate"
+                                disable-date="ctrl.disableStartDate" min-date="{{ ctrl.selectedStartDate }}">
+                            </time-picker>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="endTime">Ends</label>
+                            <time-picker name="endTime" ng-model="ctrl.endTime" clicked="ctrl.endTimeClicked" selected-date="ctrl.selectedEndDate"
+                                disable-date="ctrl.disableEndDate" min-date="{{ ctrl.selectedStartDate }}">
+                            </time-picker>
+                            <div ng-messages="eventForm.endTime.$error" ng-class="{'text-danger': eventForm.endTime.$invalid, 'event-from-error-block': eventForm.endTime.$invalid}" role="alert">
+                                <span class="help-block" ng-message="invalidDateTimeRange">Date is invalid.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="description">Description</label>
+                            <textarea name="description" data-ng-model="ctrl.event.description" id="description" class="form-control" cols="30" rows="10"
+                                placeholder="Description" maxlength="500"></textarea>
+                            <small id="descriptionNote" class="form-text text-muted">Max 500 characters.</small>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="ctrl.close(eventForm)">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-<div ui-calendar="ctrl.uiConfig.calendar" class="span8 calendar" ng-model="ctrl.eventSources"></div>

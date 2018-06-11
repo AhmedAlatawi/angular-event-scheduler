@@ -16,7 +16,7 @@
                 event: '='
             },
             bindToController: true
-        }
+        };
     }
 
 }(window.angular));

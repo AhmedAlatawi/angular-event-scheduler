@@ -1,0 +1,39 @@
+
+#selectedDate_id::-ms-clear {
+    display: none;
+}
+
+#selectedTime_id::-ms-clear {
+    display: none;
+}
+
+.shadow {
+    position: absolute;
+    z-index: 9999 !important;
+}
+
+td.minutes div {
+    cursor: pointer;
+}
+
+td.hours {
+    width: 110px;
+    margin-left: 5px;
+}
+
+td.hours div {
+    display: inline-block;
+    padding: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+td.periods div {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.event-from-error-block {
+    margin-top: -25px;
+}
+

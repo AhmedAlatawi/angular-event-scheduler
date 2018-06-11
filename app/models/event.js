@@ -1,7 +1,14 @@
 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-// Event model
-module.exports = mongoose.model('Event', {
-    name : { type : String, default: '' }
+var eventSchema = new Schema({
+    name: { type: String, required: true },
+    description: String,
+    startTime: { type: Date, required: true },
+    endTime: { type: Date, required: true },
+    created_on: Date,
+    updated_on: Date
 });
+
+module.exports =  mongoose.model('Event', eventSchema);
