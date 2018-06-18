@@ -37,11 +37,6 @@
         });
     };
 
-    /* alert on Drop */
-    // ctrl.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
-    //   ctrl.alertMessage = ('Event Droped to make dayDelta ' + delta);
-    // };
-
     /* Change View */
     ctrl.renderCalender = function (calendar) {
       if (uiCalendarConfig.calendars[calendar]) {
@@ -49,9 +44,9 @@
       }
     };
 
-    ctrl.extraEventSignature = function (event) {
-      return event.start + '' + event.end;
-    };
+    // ctrl.extraEventSignature = function (event) {
+    //   return event.start + '' + event.end;
+    // };
 
     /* Render Tooltip */
     function eventRender(event, element, view) {
@@ -242,18 +237,6 @@
         end.setHours(e.hours, e.minutes, e.seconds, e.milliseconds);
 
         validateDatesAndTimes(startDate, end, form);
-
-        // if (end.getTime() < startDate.getTime()) {
-        //   form.endTime.$setValidity('invalidDateTimeRange', false);
-        // } else {
-        //   form.endTime.$setValidity('invalidDateTimeRange', true);
-        // }
-
-        // if (end.getTime() === startDate.getTime()) {
-        //   form.endTime.$setValidity('invalidDateTimePeriod', false);
-        // } else {
-        //   form.endTime.$setValidity('invalidDateTimePeriod', true);
-        // }
 
         if (form.$invalid) {
           return;
