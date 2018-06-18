@@ -22,10 +22,9 @@ ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 // TODO: will need fixed when more envs are added
 env = process.env.NODE_ENV === 'local' ? local : openshift3;
 
-var mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
-    mongoURLLabel = "";
+var mongoURLLabel = "";
 
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+if (env.url == null && process.env.DATABASE_SERVICE_NAME) {
     var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
         mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
         mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -34,42 +33,41 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
         mongoUser = process.env[mongoServiceName + '_USER'];
 
     if (mongoHost && mongoPort && mongoDatabase) {
-        mongoURLLabel = mongoURL = 'mongodb://';
+        mongoURLLabel = env.url = 'mongodb://';
         if (mongoUser && mongoPassword) {
-            mongoURL += mongoUser + ':' + mongoPassword + '@';
+            env.url += mongoUser + ':' + mongoPassword + '@';
         }
         // Provide UI label that excludes user id and pw
         mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-        mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
+        env.url += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
 
     }
 }
 
-var db = null,
-    dbDetails = new Object();
-
 var initDb = function (callback) {
-    if (mongoURL == null) return;
+    if (env.url == null) return;
 
-    var mongodb = require('mongodb');
-    if (mongodb == null) return;
-
-    mongodb.connect(mongoURL, function (err, conn) {
+    mongoose.connect(env.url, function (err, conn) {
         if (err) {
             callback(err);
             return;
         }
 
-        db = conn;
-        dbDetails.databaseName = db.databaseName;
-        dbDetails.url = mongoURLLabel;
-        dbDetails.type = 'MongoDB';
-
-        console.log('Connected to MongoDB at: %s', mongoURL);
+        console.log('Connected to MongoDB at: %s', env.url);
     });
 };
 
-mongoose.connect(env.url);
+//mongoose.connect(encodeURI(env.url));
+
+// error handling
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something bad happened!');
+});
+
+initDb(function (err) {
+    console.log('Error connecting to Mongo. Message:\n' + err);
+});
 
 app.use(bodyParser.json());
 
