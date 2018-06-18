@@ -3,10 +3,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var eventSchema = new Schema({
-    name: { type: String, required: true },
+    title: { type: String, required: true },
     description: String,
-    startTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
+    textColor: String,
+    color: String,
+    url: String,
+    stick: Boolean,
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     created_on: Date,
     updated_on: Date
 });

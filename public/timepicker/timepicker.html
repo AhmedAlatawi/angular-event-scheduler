@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-md-6">
                 <datepicker date-format="MM/dd/yyyy" date-min-limit="{{ ctrl.minDate }}" date-max-limit="{{ ctrl.maxDate }}">
-                    <input id="selectedDate_id" ng-disabled="ctrl.disableDate" class="form-control" ng-model="ctrl.selectedDate" type="text"
+                    <input autocomplete="off" id="selectedDate_id" ng-disabled="ctrl.disableDate" class="form-control" ng-model="ctrl.selectedDate" type="text"
                     />
                 </datepicker>
             </div>
             <div class="col-md-6">
                 <label ng-click="ctrl.toggle()">
-                    <input id="selectedTime_id" class="form-control" type="text" ng-model="ctrl.timeString" ng-bind="ctrl.selectedTime">
+                    <input autocomplete="off" id="selectedTime_id" class="form-control" type="text" ng-model="ctrl.timeString" ng-bind="ctrl.selectedTime">
                 </label>
                 <div class="shadow p-3 mb-5 bg-white rounded" ng-show="ctrl.clicked">
                     <table id="table_id">

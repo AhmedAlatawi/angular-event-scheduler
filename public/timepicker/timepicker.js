@@ -5,17 +5,17 @@
   
     angular
       .module('event-scheduler')
-      .directive('timePicker', timePicker);
+      .directive('dateTimePicker', dateTimePicker);
   
-      timePicker.$inject = [];
+      dateTimePicker.$inject = [];
   
-    function timePicker() {
+    function dateTimePicker() {
         return {
             restrict: 'E',
             require: 'ngModel',
-            templateUrl: "timepicker/timepicker.html",
+            templateUrl: 'timepicker/timepicker.html',
             transclude: true,
-            controller: 'TimePickerController',
+            controller: 'DateTimePickerController',
             controllerAs: 'ctrl',
             scope: {
                 selectedTime: '=ngModel',

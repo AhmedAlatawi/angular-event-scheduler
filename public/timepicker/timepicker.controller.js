@@ -5,11 +5,11 @@
 
     angular
         .module('event-scheduler')
-        .controller('TimePickerController', TimePickerController);
+        .controller('DateTimePickerController', DateTimePickerController);
 
-    TimePickerController.$inject = ['$scope', '$document', '$element'];
+    DateTimePickerController.$inject = ['$scope', '$document', '$element'];
 
-    function TimePickerController($scope, $document, $element) {
+    function DateTimePickerController($scope, $document, $element) {
         var ctrl = this;
 
         ctrl.clicked = false;
@@ -101,7 +101,11 @@
             var mer = (hrs < 11) ? "AM" : "PM";
             var hrs2 = (hrs > 12) ? hrs - 12 : hrs;
 
-            ctrl.timeString = (hrs2 < 10 ? '0' + hrs2 : hrs2) + ":" + (mts2 == 0 ? '00' : mts2) + " " + mer;
+            if (selectedTime && _.isString(selectedTime)) {
+                ctrl.timeString = selectedTime;
+            } else {
+                ctrl.timeString = (hrs2 < 10 ? '0' + hrs2 : hrs2) + ":" + (mts2 == 0 ? '00' : mts2) + " " + mer;
+            }
         };
     }
 }(window.angular));

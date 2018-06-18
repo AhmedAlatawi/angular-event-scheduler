@@ -45,10 +45,11 @@ module.exports = function (app) {
     app.put('/api/events/:id', function (req, res) {
         var id = req.params.id;
         var eventData = req.body;
+        var options = { new: true };
 
         eventData.updated_on = new Date();
 
-        Event.findByIdAndUpdate(id, eventData, function (err, event) {
+        Event.findByIdAndUpdate(id, eventData, options, function (err, event) {
             if (err)
                 res.send(err);
 

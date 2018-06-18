@@ -13,14 +13,14 @@
 
     ctrl.text = "TEST";
 
-    var event = {
-      name: 'Sample Event',
-      description: 'This is a sample event for test!',
-      startTime: new Date(),
-      endTime: new Date()
-    };
+    // var event = {
+    //   name: 'Sample Event',
+    //   description: 'This is a sample event for test!',
+    //   startTime: new Date(),
+    //   endTime: new Date()
+    // };
 
-    eventSvc.create(event);
+    // eventSvc.create(event);
 
     console.log('edit-event: ', eventSvc.get());
   }

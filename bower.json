@@ -10,6 +10,9 @@
     "angular-ui-calendar": "^1.0.2",
     "angular-animate": "1.4",
     "angular-messages": "1.4",
-    "angularjs-datepicker": "^2.1.23"
+    "angularjs-datepicker": "^2.1.23",
+    "angular-bootstrap-colorpicker": "^3.0.32",
+    "lodash": "^4.17.10",
+    "font-awesome": "4.3"
   }
 }

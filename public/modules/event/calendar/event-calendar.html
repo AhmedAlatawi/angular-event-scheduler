@@ -1,7 +1,9 @@
-<div ui-calendar="ctrl.uiConfig.calendar" calendar="calendar" class="span8 calendar" ng-model="ctrl.eventSources">
+<div is-loading="ctrl.isLoading">
+    <div ui-calendar="ctrl.uiConfig.calendar" calendar="calendar" class="span8 calendar" ng-model="ctrl.eventSources">
+    </div>
 </div>
 
-<button ng-show="false" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal_id" id="modal_open_id"></button>
+<button ng-show="false" type="button" data-toggle="modal" data-target="#eventModal_id" id="modal_open_id"></button>
 
 <div class="modal fade" id="eventModal_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -27,17 +29,33 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="startTime">Starts</label>
-                            <time-picker name="startTime" ng-model="ctrl.startTime" clicked="ctrl.startTimeClicked" selected-date="ctrl.selectedStartDate"
-                                disable-date="ctrl.disableStartDate" min-date="{{ ctrl.selectedStartDate }}">
-                            </time-picker>
+                            <date-time-picker name="startTime" ng-model="ctrl.startTime" clicked="ctrl.startTimeClicked" selected-date="ctrl.selectedStartDate"
+                                disable-date="ctrl.disableStartDate" max-date="{{ ctrl.selectedEndDate }}">
+                            </date-time-picker>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="endTime">Ends</label>
-                            <time-picker name="endTime" ng-model="ctrl.endTime" clicked="ctrl.endTimeClicked" selected-date="ctrl.selectedEndDate"
+                            <date-time-picker name="endTime" ng-model="ctrl.endTime" clicked="ctrl.endTimeClicked" selected-date="ctrl.selectedEndDate"
                                 disable-date="ctrl.disableEndDate" min-date="{{ ctrl.selectedStartDate }}">
-                            </time-picker>
-                            <div ng-messages="eventForm.endTime.$error" ng-class="{'text-danger': eventForm.endTime.$invalid, 'event-from-error-block': eventForm.endTime.$invalid}" role="alert">
-                                <span class="help-block" ng-message="invalidDateTimeRange">Date is invalid.</span>
+                            </date-time-picker>
+                            <div ng-messages="eventForm.endTime.$error" ng-class="{'text-danger': eventForm.endTime.$invalid, 'event-from-error-block': eventForm.endTime.$invalid}"
+                                role="alert">
+                                <span class="help-block" ng-message="invalidDateTimeRange">End time must be after Start time if the event occurs on the same day.</span>
+                                <span class="help-block" ng-message="invalidDateTimePeriod">Start and End times can not be equal if the event occurs on the same day.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label" for="textColor">Text Color</label>
+                                    <input autocomplete="off" colorpicker name="textColor" ng-model="ctrl.textColor" type="text" class="form-control" placeholder="Text Color">
+                                    <small id="textColorNote" class="form-text text-muted">Default is white.</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label" for="color">Background Color</label>
+                                    <input autocomplete="off" colorpicker name="color" ng-model="ctrl.color" type="text" class="form-control" placeholder="Background Color">
+                                    <small id="colorNote" class="form-text text-muted">Default is blue.</small>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -49,8 +67,15 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="ctrl.close(eventForm)">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger mr-auto" ng-if="ctrl.showDeleteButton" ng-click="ctrl.delete(ctrl.event)" ng-disabled="ctrl.disableDeleteButton">
+                        <span>
+                            <i ng-class="{'fa fa-refresh fa-spin': ctrl.isDeleting}"></i>
+                        </span>Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="ctrl.close(eventForm)">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="ctrl.disableSaveButton">
+                        <span>
+                            <i ng-class="{'fa fa-refresh fa-spin': ctrl.isSaving}"></i>
+                        </span>Save</button>
                 </div>
             </div>
         </form>

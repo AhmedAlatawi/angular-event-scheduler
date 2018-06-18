@@ -2,6 +2,6 @@
 (function (angular) {
     'use strict';
   
-    angular.module('event', ['ngRoute', 'ngAnimate', 'ui.calendar', 'ui.bootstrap', 'ngMessages']);
+    angular.module('event', []);
 
   }(window.angular));
