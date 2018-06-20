@@ -7,6 +7,7 @@ var express = require('express'),
     methodOverride = require('method-override'),
     local = require('./config/env/local'),
     openshift3 = require('./config/env/openshift3'),
+    initDb,
     port,
     ip,
     env;
@@ -44,20 +45,18 @@ if (env.url == null && process.env.DATABASE_SERVICE_NAME) {
     }
 }
 
-var initDb = function (callback) {
+initDb = function (callback) {
     if (env.url == null) return;
 
+    //mongoose.connect(env.url);
     mongoose.connect(env.url, function (err, conn) {
         if (err) {
             callback(err);
             return;
         }
-
         console.log('Connected to MongoDB at: %s', env.url);
     });
 };
-
-//mongoose.connect(encodeURI(env.url));
 
 // error handling
 app.use(function (err, req, res, next) {

@@ -1,2 +1,2 @@
-# angular-event-scheduler
+### app still under development..
 

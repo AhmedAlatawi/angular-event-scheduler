@@ -41,6 +41,18 @@
             }
         });
 
+        function updateTimeString(hours, minutes, timeString) {
+            var parts = timeString.match(/(\d+)\:(\d+) (\w+)/),
+                h = parts[1],
+                m = parts[2],
+                p = parts[3];
+
+            h = hours ? hours : h;
+            m = minutes ? minutes : m;
+
+            return h + ':' + m + ' ' + p;
+        }
+
         for (var i = 0; i <= 11; i++) {
             periods.AM.push({
                 label: (i < 10 ? '0' + i : i),
@@ -64,7 +76,7 @@
         ctrl.hours = periods.AM;
         ctrl.minutes = ["00", "15", "30", "45"];
 
-        if (ctrl.selectedTime == undefined) {
+        if (_.isUndefined(ctrl.selectedTime)) {
             ctrl.selectedTime = 9 * 60 * 60 * 1000;
         }
 
@@ -90,7 +102,7 @@
         ctrl.selectMinute = function (minute) {
             var time = ctrl.selectedTime;
             var mts = time % (60 * 60 * 1000);
-            ctrl.selectedTime = (time - mts + minute * 60 * 1000);
+            ctrl.selectedTime = _.isString(time) ? updateTimeString(null, minute, ctrl.selectedTime) : (time - mts + minute * 60 * 1000);
             ctrl.toggle();
         };
 

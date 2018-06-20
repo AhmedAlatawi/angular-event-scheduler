@@ -1,5 +1,8 @@
+
+<toaster-container></toaster-container>
+
 <div is-loading="ctrl.isLoading">
-    <div ui-calendar="ctrl.uiConfig.calendar" calendar="calendar" class="span8 calendar" ng-model="ctrl.eventSources">
+    <div ui-calendar="ctrl.uiConfig.calendar" calendar-watch-event="ctrl.extraEventSignature(event)" calendar="calendar" class="span8 calendar" ng-model="ctrl.eventSources">
     </div>
 </div>
 

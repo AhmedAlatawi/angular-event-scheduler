@@ -10,7 +10,8 @@
     'ui.calendar',
     'ui.bootstrap',
     'ngMessages',
-    'colorpicker.module'
+    'colorpicker.module',
+    'toaster'
   ]);
 
 }(window.angular));

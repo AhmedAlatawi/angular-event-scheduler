@@ -13,6 +13,7 @@
     "angularjs-datepicker": "^2.1.23",
     "angular-bootstrap-colorpicker": "^3.0.32",
     "lodash": "^4.17.10",
-    "font-awesome": "4.3"
+    "font-awesome": "4.3",
+    "AngularJS-Toaster": "angularjs-toaster#^2.2.0"
   }
 }

@@ -6,34 +6,30 @@
     .module('event')
     .controller('EventCalendarController', EventCalendarController);
 
-  EventCalendarController.$inject = ['EventService', 'uiCalendarConfig', '$filter', '$scope'];
+  EventCalendarController.$inject = ['EventService', 'uiCalendarConfig', '$filter', '$scope', 'toaster'];
 
-  function EventCalendarController(eventSvc, uiCalendarConfig, $filter, $scope) {
+  function EventCalendarController(eventSvc, uiCalendarConfig, $filter, $scope, toaster) {
     var ctrl = this;
 
     /* event source that contains custom events on the scope */
-    ctrl.events = [
-      // { title: 'All Day Event', start: new Date(y, m, 1) },
-      // { title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2) },
-      // { id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false },
-      // { id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false },
-      // { title: 'Birthday Party', start: new Date(y, m, d + 1, 19, 0), end: new Date(y, m, d + 1, 22, 30), allDay: false },
-      // { title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/' }
-    ];
+    ctrl.events = [];
 
     /* delete event */
     ctrl.delete = function (event) {
+      var deleteFailed = false;
       ctrl.isDeleting = true;
       eventSvc.delete(event._id).then(function (res) {
         console.log('event deleted status ', res);
         deleteEvent(event);
       })
         .catch(function () {
-
+          deleteFailed = true;
+          notifier('error', 'Error', 'Deleting event failed!');
         })
         .finally(function () {
           ctrl.isDeleting = false;
           modal('close');
+          !deleteFailed && notifier('success', 'Success', 'Event deleted successfully!');
         });
     };
 
@@ -44,9 +40,9 @@
       }
     };
 
-    // ctrl.extraEventSignature = function (event) {
-    //   return event.start + '' + event.end;
-    // };
+    ctrl.extraEventSignature = function (event) {
+      return event.color + '' + event.textColor;
+    };
 
     /* Render Tooltip */
     function eventRender(event, element, view) {
@@ -65,6 +61,7 @@
     /* open modal on eventClick */
     function clickEvent(event, jsEvent, view) {
       var s, e, start, end, updatedEvent;
+      var saveFailed = false;
 
       ctrl.event = {};
       ctrl.disableSaveButton = false;
@@ -77,76 +74,69 @@
 
       resetForm();
 
-      ctrl.event = event;
+      eventSvc.getById(event._id).then(function (res) {
+        if (res.data) {
+          ctrl.event = res.data;
 
-      ctrl.color = event.color;
-      ctrl.textColor = event.textColor;
+          ctrl.color = ctrl.event.color;
+          ctrl.textColor = ctrl.event.textColor;
 
-      modal('open');
+          modal('open');
 
-      ctrl.selectedStartDate = $filter('date')(event.start._i, 'MM/dd/yyyy');
-      ctrl.selectedEndDate = $filter('date')(event.end._i, 'MM/dd/yyyy');
+          ctrl.selectedStartDate = $filter('date')(ctrl.event.start, 'MM/dd/yyyy');
+          ctrl.selectedEndDate = $filter('date')(ctrl.event.end, 'MM/dd/yyyy');
 
-      ctrl.startTime = event.start._d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      ctrl.endTime = event.end._d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          ctrl.startTime = new Date(ctrl.event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          ctrl.endTime = new Date(ctrl.event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      $scope.$watch(function () {
-        return ctrl.selectedStartDate;
-      }, function (selectedStartDate) {
-        if (selectedStartDate) {
-          start = new Date($filter('date')(selectedStartDate, 'yyyy-MM-dd'));
-          start.setHours(event.start._d.getHours(), event.start._d.getMinutes(), event.start._d.getSeconds(), event.start._d.getMilliseconds());
-        }
-      });
+          if (event.source.editable === false) {
+            //window.open(event.url);
 
-      $scope.$watch(function () {
-        return ctrl.selectedEndDate;
-      }, function (selectedEndDate) {
-        if (selectedEndDate) {
-          end = new Date($filter('date')(selectedEndDate, 'yyyy-MM-dd'));
-          end.setHours(event.end._d.getHours(), event.end._d.getMinutes(), event.end._d.getSeconds(), event.end._d.getMilliseconds());
-        }
-      });
+            ctrl.disableStartDate = true;
+            ctrl.disableEndDate = true;
 
-      $scope.$watch(function () {
-        return ctrl.startTime;
-      }, function (startTime) {
-        if (startTime) {
-          if (_.isNumber(startTime)) {
-            s = convertMillisecondsToTime(startTime);
-            start.setHours(s.hours, s.minutes, s.seconds, s.milliseconds);
+            // TODO: will need fixed
+            //ctrl.startTime = event.start._d.toLocaleTimeString();
+            //ctrl.endTime = event.end._d.toLocaleTimeString();
+
+            ctrl.disableSaveButton = true;
+            ctrl.disableDeleteButton = true;
+
+            return false;
           }
+
         }
-      });
+      })
+        .catch(function () {
+          notifier('error', 'Error', 'Failed to retrieve event!');
+        })
+        .finally(function () {
 
-      $scope.$watch(function () {
-        return ctrl.endTime;
-      }, function (endTime) {
-        if (endTime) {
-          if (_.isNumber(endTime)) {
-            e = convertMillisecondsToTime(endTime);
-            end.setHours(e.hours, e.minutes, e.seconds, e.milliseconds);
-          }
-        }
-      });
-
-      if (event.source.editable === false) {
-        //window.open(event.url);
-
-        ctrl.disableStartDate = true;
-        ctrl.disableEndDate = true;
-
-        // TODO: will need fixed
-        //ctrl.startTime = event.start._d.toLocaleTimeString();
-        //ctrl.endTime = event.end._d.toLocaleTimeString();
-
-        ctrl.disableSaveButton = true;
-        ctrl.disableDeleteButton = true;
-
-        return false;
-      }
+        });
 
       ctrl.save = function (form) {
+        start = new Date($filter('date')(ctrl.selectedStartDate, 'yyyy-MM-dd'));
+
+        if (_.isString(ctrl.startTime)) {
+          start = convertStringTimeToDate(ctrl.startTime, start);
+        } else {
+          if (_.isNumber(ctrl.startTime)) {
+            s = convertMillisecondsToTime(ctrl.startTime);
+            start.setHours(s.hours, s.minutes, s.seconds);
+          }
+        }
+
+        end = new Date($filter('date')(ctrl.selectedEndDate, 'yyyy-MM-dd'));
+
+        if (_.isString(ctrl.endTime)) {
+          end = convertStringTimeToDate(ctrl.endTime, end);
+        } else {
+          if (_.isNumber(ctrl.endTime)) {
+            e = convertMillisecondsToTime(ctrl.endTime);
+            end.setHours(e.hours, e.minutes, e.seconds);
+          }
+        }
+
         validateDatesAndTimes(start, end, form);
 
         if (form.$invalid) {
@@ -170,11 +160,13 @@
           ctrl.events.push(ctrl.event);
         })
           .catch(function () {
-
+            saveFailed = true;
+            notifier('error', 'Error', 'Saving event failed!');
           })
           .finally(function () {
             ctrl.isSaving = false;
             modal('close');
+            !saveFailed && notifier('success', 'Success', 'Event saved successfully!');
           });
       };
 
@@ -184,6 +176,7 @@
     function addNewEvent(dateEvent, jsEvent, view) {
       var startDate = new Date(dateEvent);
       var endDate = new Date(dateEvent);
+      var saveFailed = false;
 
       ctrl.disableSaveButton = false;
       ctrl.showDeleteButton = false;
@@ -219,9 +212,6 @@
 
       ctrl.disableStartDate = true;
       ctrl.disableEndDate = false;
-
-      $scope.eventForm.endTime.$setValidity('invalidDateTimeRange', true);
-      $scope.eventForm.endTime.$setValidity('invalidDateTimePeriod', true);
 
       ctrl.save = function (form) {
         var s, e, end;
@@ -267,13 +257,26 @@
           }
         })
           .catch(function () {
-            // handle error
+            saveFailed = true;
+            notifier('error', 'Error', 'Saving event failed!');
           })
           .finally(function () {
             ctrl.isSaving = false;
             modal('close');
+            !saveFailed && notifier('success', 'Success', 'Event saved successfully!');
           });
       };
+    }
+
+    function notifier(type, title, msg) {
+      toaster.pop(
+        {
+          type: type,
+          title: title,
+          body: msg,
+          showCloseButton: true
+        }
+      );
     }
 
     function validateDatesAndTimes(startDate, endDate, form) {
@@ -310,6 +313,8 @@
     function resetForm() {
       $scope.eventForm.$setUntouched();
       $scope.eventForm.$setPristine();
+      $scope.eventForm.endTime.$setValidity('invalidDateTimeRange', true);
+      $scope.eventForm.endTime.$setValidity('invalidDateTimePeriod', true);
     }
 
     function deleteEvent(event) {
@@ -339,6 +344,18 @@
       };
 
       return time;
+    }
+
+    function convertStringTimeToDate(time, date) {
+      var parts = time.match(/(\d+)\:(\d+) (\w+)/),
+        hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
+        minutes = parseInt(parts[2], 10);
+
+
+      date.setHours(hours);
+      date.setMinutes(minutes);
+
+      return date;
     }
 
     function init() {
@@ -387,7 +404,7 @@
         }
       })
         .catch(function () {
-
+          notifier('error', 'Error', 'Failed to retrieve events!');
         })
         .finally(function () {
           ctrl.eventsLoading = false;
