@@ -74,6 +74,18 @@
 
       resetForm();
 
+      if (event.source.editable === false) {
+        //window.open(event.url);
+
+        ctrl.disableStartDate = true;
+        ctrl.disableEndDate = true;
+
+        ctrl.disableSaveButton = true;
+        ctrl.disableDeleteButton = true;
+
+        return false;
+      }
+
       eventSvc.getById(event._id).then(function (res) {
         if (res.data) {
           ctrl.event = res.data;
@@ -88,23 +100,6 @@
 
           ctrl.startTime = new Date(ctrl.event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           ctrl.endTime = new Date(ctrl.event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-          if (event.source.editable === false) {
-            //window.open(event.url);
-
-            ctrl.disableStartDate = true;
-            ctrl.disableEndDate = true;
-
-            // TODO: will need fixed
-            //ctrl.startTime = event.start._d.toLocaleTimeString();
-            //ctrl.endTime = event.end._d.toLocaleTimeString();
-
-            ctrl.disableSaveButton = true;
-            ctrl.disableDeleteButton = true;
-
-            return false;
-          }
-
         }
       })
         .catch(function () {
@@ -369,7 +364,7 @@
       /* event source that pulls from google.com */
       var eventSource = {
         googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
-        url: "https://www.googleapis.com/calendar/v3/calendars/usa__en@holiday.calendar.google.com/events?key=AIzaSyAjuKkq7EvbGztcj9eSAnIzqC1iFrpby8U",
+        url: 'https://www.googleapis.com/calendar/v3/calendars/usa__en@holiday.calendar.google.com/events?key=AIzaSyAjuKkq7EvbGztcj9eSAnIzqC1iFrpby8U',
         className: 'gcal-event',           // an option!
         currentTimezone: 'America/Chicago', // an option!
         color: 'yellow',                    // an option!
