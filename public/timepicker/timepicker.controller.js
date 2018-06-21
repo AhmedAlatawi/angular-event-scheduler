@@ -50,6 +50,10 @@
             h = hours ? hours : h;
             m = minutes ? minutes : m;
 
+            if (h === '00') {
+                h = '12';
+            }
+
             return h + ':' + m + ' ' + p;
         }
 
@@ -117,6 +121,7 @@
                 ctrl.timeString = selectedTime;
             } else {
                 ctrl.timeString = (hrs2 < 10 ? '0' + hrs2 : hrs2) + ":" + (mts2 == 0 ? '00' : mts2) + " " + mer;
+                ctrl.timeString = updateTimeString(null, null, ctrl.timeString);
             }
         };
     }

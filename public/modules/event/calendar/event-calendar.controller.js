@@ -348,12 +348,16 @@
 
     function convertStringTimeToDate(time, date) {
       var parts = time.match(/(\d+)\:(\d+) (\w+)/),
-        hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
-        minutes = parseInt(parts[2], 10);
+        h = parts[1],
+        m = parts[2],
+        p = parts[3];
 
+      if (h === '12' && p === 'AM') {
+        h = '00';
+      }
 
-      date.setHours(hours);
-      date.setMinutes(minutes);
+      date.setHours(h);
+      date.setMinutes(m);
 
       return date;
     }
