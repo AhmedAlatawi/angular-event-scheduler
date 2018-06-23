@@ -171,11 +171,25 @@
     function addNewEvent(dateEvent, jsEvent, view) {
       var startDate = new Date(dateEvent);
       var endDate = new Date(dateEvent);
+      var today = new Date();
       var saveFailed = false;
 
       ctrl.disableSaveButton = false;
       ctrl.showDeleteButton = false;
       ctrl.isSaving = false;
+
+      startDate.setDate(startDate.getDate() + 1);
+      endDate.setDate(endDate.getDate() + 1);
+
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      if (startDate.getTime() < today.getTime()) {
+        notifier('warning', 'Warning', 'Events can not be added in the past!');
+
+        return;
+      }
 
       modal('open');
 
@@ -189,12 +203,6 @@
       $scope.vm.eventForm.submitted = false;
 
       resetForm();
-
-      startDate.setDate(startDate.getDate() + 1);
-      endDate.setDate(endDate.getDate() + 1);
-
-      startDate.setHours(0, 0, 0, 0);
-      endDate.setHours(0, 0, 0, 0);
 
       ctrl.selectedStartDate = $filter('date')(startDate, 'MM/dd/yyyy');
       ctrl.selectedEndDate = $filter('date')(endDate, 'MM/dd/yyyy');
