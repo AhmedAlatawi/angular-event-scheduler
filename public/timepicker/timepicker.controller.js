@@ -21,8 +21,8 @@
         };
 
         // prevent user from keyboard editing on the input box elements
-        $element.on('keydown keyup', function (e) {
-            e.preventDefault();
+        $element.on('keydown keyup', function (event) {
+            event.preventDefault();
         });
 
         // needed to prevent any parent handlers from being notified 
@@ -43,15 +43,19 @@
 
         function updateTimeString(hours, minutes, timeString) {
             var parts = timeString.match(/(\d+)\:(\d+) (\w+)/),
-                h = parts[1],
-                m = parts[2],
-                p = parts[3];
+                h = parts && parts[1],
+                m = parts && parts[2],
+                p = parts && parts[3];
 
             h = hours ? hours : h;
             m = minutes ? minutes : m;
 
-            if (h === '00') {
+            if (h === '00' || !h) {
                 h = '12';
+            }
+
+            if (!p) {
+                p = 'AM';
             }
 
             return h + ':' + m + ' ' + p;

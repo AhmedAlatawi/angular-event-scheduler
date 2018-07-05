@@ -13,7 +13,9 @@
             controller: 'EventEditController',
             controllerAs: 'ctrl',
             scope: {
-                event: '='
+                event: '=',
+                onSelect: '&',
+                hideCal: '='
             },
             bindToController: true
         }

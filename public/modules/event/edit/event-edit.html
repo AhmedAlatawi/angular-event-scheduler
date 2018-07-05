@@ -1,2 +1,81 @@
+<event-calendar hide-calendar="ctrl.hideCal" events="ctrl.events" event-sources="ctrl.eventSources" on-add="ctrl.addNewEvent(dateEvent, jsEvent, view)" on-edit="ctrl.clickEvent(event, jsEvent, view)" on-notify="ctrl.notify(notifyFn)" is-loading="ctrl.isLoading">
+</event-calendar>
 
-<event-calendar event="someEvent"></event-calendar>
+<button ng-show="false" type="button" data-toggle="modal" data-target="#eventModal_id" id="modal_open_id"></button>
+
+<div class="modal fade" id="eventModal_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form name="eventForm" class="form-horizontal" validate-form-submit ng-submit="ctrl.save(eventForm)" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ ctrl.event._id ? 'Edit' : 'Add' }} Event</h5>
+                    <button id="modal_close_id" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="control-label" for="title">Title</label>
+                            <input name="title" type="text" ng-model="ctrl.event.title" id="title" class="form-control" placeholder="Title" ng-minlength="2"
+                                maxlength="50" required>
+                            <div ng-messages="eventForm.title.$error" ng-class="{'text-danger': eventForm.title.$invalid && (eventForm.title.$dirty || vm.eventForm.submitted)}"
+                                role="alert">
+                                <span class="help-block" ng-message="required">Title is required.</span>
+                                <span class="help-block" ng-message="minlength">Title must be at least 2 characters.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="startTime">Starts</label>
+                            <date-time-picker name="startTime" ng-model="ctrl.startTime" clicked="ctrl.startTimeClicked" selected-date="ctrl.selectedStartDate"
+                                disable-date="ctrl.disableStartDate" max-date="{{ ctrl.selectedEndDate }}">
+                            </date-time-picker>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="endTime">Ends</label>
+                            <date-time-picker name="endTime" ng-model="ctrl.endTime" clicked="ctrl.endTimeClicked" selected-date="ctrl.selectedEndDate"
+                                disable-date="ctrl.disableEndDate" min-date="{{ ctrl.selectedStartDate }}">
+                            </date-time-picker>
+                            <div ng-messages="eventForm.endTime.$error" ng-class="{'text-danger': eventForm.endTime.$invalid, 'event-from-error-block': eventForm.endTime.$invalid}"
+                                role="alert">
+                                <span class="help-block" ng-message="invalidDateTimeRange">End time must be after Start time if the event occurs on the same day.</span>
+                                <span class="help-block" ng-message="invalidDateTimePeriod">Start and End times can not be equal if the event occurs on the same day.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label" for="textColor">Text Color</label>
+                                    <input autocomplete="off" colorpicker name="textColor" ng-model="ctrl.textColor" type="text" class="form-control" placeholder="Text Color">
+                                    <small id="textColorNote" class="form-text text-muted">Default is white.</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label" for="color">Background Color</label>
+                                    <input autocomplete="off" colorpicker name="color" ng-model="ctrl.color" type="text" class="form-control" placeholder="Background Color">
+                                    <small id="colorNote" class="form-text text-muted">Default is blue.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="description">Description</label>
+                            <textarea name="description" data-ng-model="ctrl.event.description" id="description" class="form-control" cols="30" rows="10"
+                                placeholder="Description" maxlength="500"></textarea>
+                            <small id="descriptionNote" class="form-text text-muted">Max 500 characters.</small>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-auto" ng-if="ctrl.showDeleteButton" ng-click="ctrl.delete(ctrl.event)" ng-disabled="ctrl.disableDeleteButton">
+                        <span>
+                            <i ng-class="{'fa fa-refresh fa-spin': ctrl.isDeleting}"></i>
+                        </span>Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="ctrl.close(eventForm)">Cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="ctrl.disableSaveButton">
+                        <span>
+                            <i ng-class="{'fa fa-refresh fa-spin': ctrl.isSaving}"></i>
+                        </span>Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

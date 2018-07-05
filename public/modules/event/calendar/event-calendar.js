@@ -13,7 +13,13 @@
             controller: 'EventCalendarController',
             controllerAs: 'ctrl',
             scope: {
-                event: '='
+                events: '=',
+                eventSources: '=',
+                onAdd: '&',
+                onEdit: '&',
+                onNotify: '&',
+                isLoading: '=',
+                hideCalendar: '='
             },
             bindToController: true
         };

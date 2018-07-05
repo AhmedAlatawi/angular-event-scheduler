@@ -1,0 +1,29 @@
+
+<table class="table table-hover">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="cursor: pointer;" ng-repeat="event in ctrl.events" ng-click="ctrl.selectEvent(event)">
+        <td>
+            <span>{{ event.title }}</span>
+        </td>
+        <td>
+            <span>{{ event.start | date: 'MM/dd/yyyy hh:mm a' }}</span>
+        </td>
+        <td>
+            <span>{{ event.end | date: 'MM/dd/yyyy hh:mm a' }}</span>
+        </td>
+        <td>
+            <span>{{ event.status }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <edit-event event="ctrl.event" on-select="ctrl.onSelect(callback)" hide-cal="ctrl.hideCalendar"></edit-event>

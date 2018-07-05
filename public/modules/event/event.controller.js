@@ -10,7 +10,6 @@
   
     function EventController() {
       var ctrl = this;
-  
-      console.log('event controller');
+      
     }
   }(window.angular));
