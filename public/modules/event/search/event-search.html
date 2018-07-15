@@ -1,29 +1,65 @@
+<form class="form">
+  <div class="custom-control custom-control-inline">
+    <label for="inputPassword6">
+      <h5>Search by</h5>
+    </label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+    <label class="custom-control-label" for="customRadioInline1">Title</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+    <label class="custom-control-label" for="customRadioInline2">Date Range</label>
+  </div>
+</form>
 
 <table class="table table-hover">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Start</th>
-        <th scope="col">End</th>
-        <th scope="col">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr style="cursor: pointer;" ng-repeat="event in ctrl.events" ng-click="ctrl.selectEvent(event)">
-        <td>
-            <span>{{ event.title }}</span>
-        </td>
-        <td>
-            <span>{{ event.start | date: 'MM/dd/yyyy hh:mm a' }}</span>
-        </td>
-        <td>
-            <span>{{ event.end | date: 'MM/dd/yyyy hh:mm a' }}</span>
-        </td>
-        <td>
-            <span>{{ event.status }}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Start</th>
+      <th scope="col">End</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="cursor: pointer;" ng-repeat="event in ctrl.events" ng-click="ctrl.selectEvent(event)">
+      <td>
+        <span>{{ event.title }}</span>
+      </td>
+      <td>
+        <span>{{ event.start | date: 'MM/dd/yyyy hh:mm a' }}</span>
+      </td>
+      <td>
+        <span>{{ event.end | date: 'MM/dd/yyyy hh:mm a' }}</span>
+      </td>
+      <td>
+        <span>{{ event.status }}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <edit-event event="ctrl.event" on-select="ctrl.onSelect(callback)" hide-cal="ctrl.hideCalendar"></edit-event>
+<br />
+
+<!-- pagination -->
+<ul ng-if="ctrl.page.pages.length" class="pagination">
+  <li class="page-item" ng-class="{disabled: ctrl.page.currentPage === 1}">
+    <a class="page-link" ng-click="ctrl.setPage(1)">First</a>
+  </li>
+  <li class="page-item" ng-class="{disabled: ctrl.page.currentPage === 1}">
+    <a class="page-link" ng-click="ctrl.setPage(ctrl.page.currentPage - 1)">Previous</a>
+  </li>
+  <li class="page-item" ng-repeat="page in ctrl.page.pages" ng-class="{active: ctrl.page.currentPage === page}">
+    <a class="page-link" ng-click="ctrl.setPage(page)">{{ page }}</a>
+  </li>
+  <li class="page-item" ng-class="{disabled: ctrl.page.currentPage === ctrl.page.totalPages}">
+    <a class="page-link" ng-click="ctrl.setPage(ctrl.page.currentPage + 1)">Next</a>
+  </li>
+  <li class="page-item" ng-class="{disabled: ctrl.page.currentPage === ctrl.page.totalPages}">
+    <a class="page-link" ng-click="ctrl.setPage(ctrl.page.totalPages)">Last</a>
+  </li>
+</ul>
+
+<edit-event event="ctrl.event" on-select="ctrl.onSelect(callback)" hide-cal="ctrl.hideCalendar"></edit-event>
