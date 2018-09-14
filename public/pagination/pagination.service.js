@@ -19,7 +19,7 @@
 
             currentPage = currentPage || 1;
 
-            pageSize = pageSize || 3;
+            pageSize = pageSize || 5;
 
             totalPages = Math.ceil(totalItems / pageSize);
 
