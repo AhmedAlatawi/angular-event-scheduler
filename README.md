@@ -6,7 +6,7 @@ It shows how to write clean, testable and maintainable code.
 
 ### [Live Demo](http://nodejs-mongo-persistent-event-scheduler.a3c1.starter-us-west-1.openshiftapps.com/)
 
-#### Front-end Technologies
+### Front-end Technologies
 - [AngularJS](https://angularjs.org/)
 - [Angular-Route](https://docs.angularjs.org/api/ngRoute/service/$route)
 - [Angular-Bootstrap](https://docs.angularjs.org/api/ng/function/angular.bootstrap)
@@ -21,14 +21,14 @@ It shows how to write clean, testable and maintainable code.
 - [Lodash](https://lodash.com/)
 - [Font-Awesome](https://fontawesome.com/)
 
-#### Back-end Technologies
+### Back-end Technologies
 
 - [NodeJS](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
 - [Mongodb](https://www.mongodb.com/)
 - [Mongoose](https://mongoosejs.com/)
 
-#### App Overview
+### App Overview
 
 	angular-event-scheduler
 	├── app
@@ -92,7 +92,7 @@ It shows how to write clean, testable and maintainable code.
 	└── server.js
 
 
-#### Run app locally
+### Run app locally
 
 Before you start, make sure you have npm, node and mongoDB (running on port 27017) installed on you machine.
 Copy or download the app:
@@ -106,7 +106,7 @@ App should be up and running on:
         http://localhost:8080/
 
 
-#### Run app on OpenshiftV3
+### Run app on OpenshiftV3
 
 Please follow these [steps](https://docs.openshift.com/online/getting_started/basic_walkthrough.html)
 Also, make sure you use this repository instead of openshift/nodejs-ex
