@@ -1,8 +1,8 @@
 ## MEAN app running on OpenShift V3
 -----------------
 
-This app uses the full MEAN stack: MongoDB, Express.JS, AngularJS, and Node.JS.
-It shows how to write clean, testable and maintainable code.
+App using the full MEAN stack: MongoDB, Express.JS, AngularJS, and Node.JS.
+It also shows how to write clean, testable and maintainable code.
 
 ### [Live Demo](http://nodejs-mongo-persistent-event-scheduler.a3c1.starter-us-west-1.openshiftapps.com/)
 
