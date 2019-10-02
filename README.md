@@ -116,15 +116,11 @@ Please report any bugs [here](https://github.com/AhmedAlatawi/angular-event-sche
 
 ### Contributions
 
-Please shoot me an email if you'd like to contribute in anyways.
+Please shoot me an email if you'd like to contribute.
 
 ### Compatibility
 
 This repository is compatible with Node.js 8.11.1, NPM 6.1.0, and MongoDB 3.6.
-
-### What's next?
-
-You're probably thinking why not add another module, let's say User module, so that you can allow customers to have their own accounts. This would be a good start to extent the app to do more stuff. 
 
 ### License
 [MIT License](https://github.com/AhmedAlatawi/angular-event-scheduler/blob/master/LICENSE).
