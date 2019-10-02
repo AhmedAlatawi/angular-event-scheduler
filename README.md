@@ -5,7 +5,7 @@ App using the full MEAN stack: MongoDB, Express.JS, AngularJS, and Node.JS.
 
 ### [Live Demo](http://nodejs-mongo-persistent-event-scheduler.a3c1.starter-us-west-1.openshiftapps.com/)
 
-### Front-end Technologies
+### Front-End:
 - [AngularJS](https://angularjs.org/)
 - [Angular-Route](https://docs.angularjs.org/api/ngRoute/service/$route)
 - [Angular-Bootstrap](https://docs.angularjs.org/api/ng/function/angular.bootstrap)
@@ -20,7 +20,7 @@ App using the full MEAN stack: MongoDB, Express.JS, AngularJS, and Node.JS.
 - [Lodash](https://lodash.com/)
 - [Font-Awesome](https://fontawesome.com/)
 
-### Back-end Technologies
+### Back-End:
 
 - [NodeJS](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
